@@ -7,12 +7,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class CoinGameApplication extends Application {
+
+    public static Stage STAGE;
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+
+        STAGE =stage;
+        FXMLLoader fxmlLoader = new FXMLLoader(CoinGameApplication.class.getResource("/com/example/view/main-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Coin Maxi");
+        stage.centerOnScreen();
         stage.setScene(scene);
         stage.show();
     }

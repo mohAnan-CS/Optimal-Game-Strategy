@@ -5,4 +5,6 @@ module com.example.optimalgamestrategyproject {
 
     opens com.example.optimalgamestrategyproject to javafx.fxml;
     exports com.example.optimalgamestrategyproject;
+    exports controllers;
+    opens controllers to javafx.fxml;
 }

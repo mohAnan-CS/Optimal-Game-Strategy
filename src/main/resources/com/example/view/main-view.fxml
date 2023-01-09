@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <Button layoutX="186.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnBrowseFileOnAction" text="Browse File" />
+      <Button layoutX="248.0" layoutY="285.0" mnemonicParsing="false" onAction="#btnEnterCoinOnAction" text="Enter Coins" />
+      <Button layoutX="338.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnReadFileOnAction" text="Read File" />
+      <Label fx:id="pathLabel" layoutX="286.0" layoutY="134.0" />
+      <Line endX="100.0" layoutX="286.0" layoutY="222.0" startX="-100.0" />
+      <TextField fx:id="textFiledCoins" layoutX="202.0" layoutY="242.0" prefHeight="26.0" prefWidth="168.0" promptText="Enter coin spreated with &quot;,&quot;" />
+   </children>
+</AnchorPane>
