@@ -42,11 +42,11 @@ public class Exceptions extends Throwable {
     }
 
     public static void containsNumber(String input){
-        if ( input.matches("^\\d+$") ){
-            System.out.println("enter");
-        }else{
+
+        if (!input.matches("^\\d+$")) {
             throw new IllegalArgumentException("Pleas Enter just numbers");
         }
+
     }
 
     public static void checkTextFiledEmpty(String text){

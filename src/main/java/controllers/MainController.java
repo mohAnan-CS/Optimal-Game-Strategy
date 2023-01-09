@@ -32,10 +32,14 @@ public class MainController implements Initializable {
     void btnReadFileOnAction() throws FileNotFoundException {
 
         try {
-            System.out.println("hi");
+
             Runner.readFileCoin(pathLabel.getText().trim());
+            switchStage("game-view");
+
         }catch (IllegalArgumentException illegalArgumentException){
             creatAlert(illegalArgumentException.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -63,6 +67,7 @@ public class MainController implements Initializable {
     void btnEnterCoinOnAction() {
 
         try {
+
             Exceptions.checkTextFiledEmpty(textFiledCoins.getText());
             String[] textFiledCoinSplit = textFiledCoins.getText().split(",");
 
@@ -73,8 +78,18 @@ public class MainController implements Initializable {
 
             Exceptions.containsNumber(coins);
             Exceptions.checkNumberCoinValidate(textFiledCoinSplit.length);
+
+            int[] coin = new int[textFiledCoinSplit.length];
+            for (int i = 0; i < textFiledCoinSplit.length; i++)
+                coin[i] = Integer.parseInt(textFiledCoinSplit[i]);
+
+            GameController.COIN_ARRAY =coin;
+            switchStage("game-view");
+
         }catch (IllegalArgumentException illegalArgumentException){
             creatAlert(illegalArgumentException.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -83,7 +98,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        switchStage();
+
 
     }
 
@@ -97,21 +112,12 @@ public class MainController implements Initializable {
 
     }
 
-    private void switchStage() {
+    private void switchStage(String xmlFileName) throws IOException {
 
-        try {
-
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/view/game-view.fxml")));
-            CoinGameApplication.STAGE.setScene(new Scene(root));
-            CoinGameApplication.STAGE.centerOnScreen();
-            CoinGameApplication.STAGE.show();
-
-        } catch (IOException ioException) {
-            creatAlert(ioException.getMessage());
-        } catch (Exception exception) {
-            creatAlert(exception.getMessage());
-        }
-
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/view/" + xmlFileName.concat(".fxml")));
+        CoinGameApplication.STAGE.setScene(new Scene(root));
+        CoinGameApplication.STAGE.centerOnScreen();
+        CoinGameApplication.STAGE.show();
 
     }
 }

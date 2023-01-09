@@ -13,6 +13,6 @@
       <Button layoutX="338.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnReadFileOnAction" text="Read File" />
       <Label fx:id="pathLabel" layoutX="286.0" layoutY="134.0" />
       <Line endX="100.0" layoutX="286.0" layoutY="222.0" startX="-100.0" />
-      <TextField fx:id="textFiledCoins" layoutX="202.0" layoutY="242.0" prefHeight="26.0" prefWidth="168.0" promptText="Enter coin spreated with &quot;,&quot;" />
+      <TextField fx:id="textFiledCoins" layoutX="202.0" layoutY="242.0" prefHeight="26.0" prefWidth="168.0" promptText="Enter coin spreated with &quot;,&quot;" text="1,2,3,4,5,6" />
    </children>
 </AnchorPane>
