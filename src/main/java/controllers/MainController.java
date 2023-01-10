@@ -1,5 +1,6 @@
 package controllers;
 
+import alert.AlertMaker;
 import birzeit.university.optimalgamestrategyproject.CoinGameApplication;
 import exception.Exceptions;
 import file.FileReader;
@@ -7,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -24,6 +24,12 @@ public class MainController{
     @FXML
     private Label pathLabel;
 
+    private static int numberOfCoins ;
+    private static String[] splitCoins ;
+
+
+    //////////////////////////////////// FUNCTIONS FOR FILE OPERATION ////////////////////////////////////
+
     @FXML
     void btnReadFileOnAction(){
 
@@ -34,7 +40,7 @@ public class MainController{
             switchStage();
 
         }catch (IllegalArgumentException illegalArgumentException){
-            creatAlert(illegalArgumentException.getMessage());
+            AlertMaker.make(illegalArgumentException.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,49 +61,55 @@ public class MainController{
             pathLabel.setText(selectedFile.toString());
         }
 
-
     }
+
+    //////////////////////////////////// FUNCTIONS FOR MANUALLY ENTERING COIN OPERATION ////////////////////////////////////
 
     @FXML
     void btnEnterCoinOnAction() {
 
         try {
 
-            Exceptions.checkTextFiledEmpty(textFiledCoins.getText());
-            String[] textFiledCoinSplit = textFiledCoins.getText().split(",");
+            checkAllException();
 
-            String coins = "";
-            for (String s : textFiledCoinSplit)
-                coins += s;
-
-            Exceptions.containsNumber(coins);
-            Exceptions.checkNumberCoinValidate(textFiledCoinSplit.length);
-
-            int[] coin = new int[textFiledCoinSplit.length];
-            for (int i = 0; i < textFiledCoinSplit.length; i++)
-                coin[i] = Integer.parseInt(textFiledCoinSplit[i]);
+            int[] coin = new int[numberOfCoins];
+            for (int i = 0; i < numberOfCoins; i++)
+                coin[i] = Integer.parseInt(splitCoins[i]);
 
             GameController.COIN_ARRAY =coin;
             switchStage();
 
         }catch (IllegalArgumentException illegalArgumentException){
-            creatAlert(illegalArgumentException.getMessage());
+            AlertMaker.make(illegalArgumentException.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void checkAllException(){
+
+        Exceptions.checkTextFiledEmpty(textFiledCoins.getText());
+        String coins = removeCommaSeparateNumbers();
+        Exceptions.containsNumber(coins);
+        Exceptions.checkNumberCoinValidate(numberOfCoins);
 
     }
 
-    public void creatAlert(String error){
+    private String removeCommaSeparateNumbers() {
 
-        Alert alertCreat = new Alert(Alert.AlertType.ERROR);
-        alertCreat.setTitle("Error");
-        alertCreat.setHeaderText(null);
-        alertCreat.setContentText(error);
-        alertCreat.showAndWait();
+        String[] textFiledCoinSplit = textFiledCoins.getText().split(",");
+        String coins = "";
+        for (String s : textFiledCoinSplit)
+            coins += s;
 
+        numberOfCoins = textFiledCoinSplit.length;
+        splitCoins = textFiledCoinSplit;
+
+        return coins;
     }
+
+    //////////////////////////////////// FUNCTION FOR SWITCH STAGE ////////////////////////////////////
 
     private void switchStage() throws IOException {
 
