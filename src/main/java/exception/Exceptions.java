@@ -1,4 +1,4 @@
-package com.example.optimalgamestrategyproject;
+package exception;
 
 public class Exceptions extends Throwable {
 
@@ -26,26 +26,16 @@ public class Exceptions extends Throwable {
 
     public static void checkIsNumber(String[] numbers){
 
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.println(numbers[i]);
-        }
-
-        for (String number : numbers) {
-            if (Character.isDigit(Integer.parseInt(number.trim()))) {
-                System.out.println(number);
-
-            }else{
+        for (String number : numbers)
+            if (!Character.isDigit(Integer.parseInt(number.trim())))
                 throw new IllegalArgumentException("Pleas Enter just numbers");
-            }
-        }
 
     }
 
     public static void containsNumber(String input){
 
-        if (!input.matches("^\\d+$")) {
+        if (!input.matches("^\\d+$"))
             throw new IllegalArgumentException("Pleas Enter just numbers");
-        }
 
     }
 

@@ -3,8 +3,10 @@ module com.example.optimalgamestrategyproject {
     requires javafx.fxml;
 
 
-    opens com.example.optimalgamestrategyproject to javafx.fxml;
-    exports com.example.optimalgamestrategyproject;
+    opens birzeit.university.optimalgamestrategyproject to javafx.fxml;
+    exports birzeit.university.optimalgamestrategyproject;
     exports controllers;
     opens controllers to javafx.fxml;
+    exports exception;
+    opens exception to javafx.fxml;
 }

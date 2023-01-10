@@ -1,14 +1,15 @@
-package com.example.optimalgamestrategyproject;
+package file;
 
 import controllers.GameController;
+import exception.Exceptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Runner {
+public class FileReader {
 
-    public static void readFileCoin(String path) throws FileNotFoundException {
+    public static void read(String path) throws FileNotFoundException {
 
         Exceptions.checkFileIsChosen(path);
         Exceptions.checkFileNameContainSpace(path);
@@ -35,6 +36,5 @@ public class Runner {
 
 
     }
-
 
 }

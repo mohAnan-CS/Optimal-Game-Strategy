@@ -1,6 +1,5 @@
 package controllers;
 
-import com.example.optimalgamestrategyproject.Runner;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -20,8 +19,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import javafx.util.Duration;
-import problem.Game;
-import problem.OptimalGameStrategy;
+import game.Game;
+import game.OptimalGameStrategy;
 
 import java.net.URL;
 import java.util.List;
@@ -49,65 +48,117 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        dpTextArea.setDisable(true);
-        resultTextFiled.setDisable(true);
-        coinTextFiled.setDisable(true);
+        prepareScrollPane();
+        setAllProprieties();
+        setDisableForFiled();
+
+    }
 
 
-        hbox.setSpacing(30);
+    //////////////////////////////////// FUNCTIONS FOR PREPARING TO START A GAME ////////////////////////////////////
+
+    private void prepareScrollPane(){
 
         for (int j : COIN_ARRAY) {
 
-            Circle circle = new Circle(30, Color.WHITE);
-            circle.setStrokeWidth(3);
-            circle.setStrokeMiterLimit(10);
-            circle.setStrokeType(StrokeType.CENTERED);
-            circle.setStroke(Color.valueOf("0x333333"));
-            Text text = new Text(circle.getCenterX() , circle.getCenterY(),String.valueOf(j));
-            text.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-            text.setBoundsType(TextBoundsType.VISUAL);
+            Circle circle = creatCircle();
+            Text text = creatText(j);
             Group group = new Group(circle, text);
             hbox.getChildren().add(group);
-            hbox.setPadding(new Insets(100, 30, 100, 30));
 
         }
 
+    }
+
+    private void setAllProprieties(){
+
+        hbox.setSpacing(30);
+        hbox.setPadding(new Insets(100, 30, 100, 30));
         scrollPane.setContent(hbox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
     }
 
+    private void setDisableForFiled(){
+
+        dpTextArea.setDisable(true);
+        resultTextFiled.setDisable(true);
+        coinTextFiled.setDisable(true);
+
+    }
+
+    private Circle creatCircle(){
+
+        Circle circle = new Circle(30, Color.WHITE);
+        circle.setStrokeWidth(3);
+        circle.setStrokeMiterLimit(10);
+        circle.setStrokeType(StrokeType.CENTERED);
+        circle.setStroke(Color.valueOf("0x333333"));
+
+        return circle;
+
+    }
+
+    private Text creatText(int index){
+
+        Text text = new Text(String.valueOf(index));
+        text.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        text.setBoundsType(TextBoundsType.VISUAL);
+
+        return text;
+    }
+
+    //////////////////////////////////// FUNCTION FOR PLAY GAME ////////////////////////////////////
+
     @FXML
-    void playOnAction() throws InterruptedException {
+    void playOnAction(){
 
         Game game = OptimalGameStrategy.play(COIN_ARRAY);
         List<Integer> listCoins = game.getCoins();
 
         SequentialTransition sequence = new SequentialTransition();
         for (Node child : hbox.getChildren()) {
+
             if (child instanceof Group group) {
 
-                // Circle circle = (Circle) group.getChildren().get(0);
                 Text text = (Text) group.getChildren().get(1);
                 int number = Integer.parseInt(text.getText().trim());
+
                 if (listCoins.contains(number)){
-                    TranslateTransition transition = new TranslateTransition(Duration.millis(500), group);
-                    transition.setFromY(group.getTranslateY());
-                    transition.setToY(group.getTranslateY() - 50);
-                    sequence.getChildren().add(transition);
+                    creatTransition(group, sequence, 0);
                 }else{
-                    TranslateTransition transition = new TranslateTransition(Duration.millis(500), group);
-                    transition.setFromY(group.getTranslateY());
-                    transition.setToY(group.getTranslateY() + 50);
-                    sequence.getChildren().add(transition);
+                    creatTransition(group, sequence, 1);
                 }
             }
         }
 
-        // Start the animation
         sequence.play();
-        
+        showDpTable(game);
+        showResult(game);
+        showCoin(game);
+
+    }
+
+    //////////////////////////////////// FUNCTIONS FOR CIRCLE ANIMATIONS ////////////////////////////////////
+
+    // turn . 0 for player . 1 for computer
+    private void creatTransition(Group group, SequentialTransition sequence, int turn){
+
+        TranslateTransition transition = new TranslateTransition(Duration.millis(500), group);
+        transition.setFromY(group.getTranslateY());
+        if (turn == 0)
+            transition.setToY(group.getTranslateY() - 50);
+        else
+            transition.setToY(group.getTranslateY() + 50);
+        sequence.getChildren().add(transition);
+
+    }
+
+    //////////////////////////////////// FUNCTIONS THAT SHOW THE RESULT IN TEXT FILED AND TEXT AREA ////////////////////////////////////
+
+    private void showDpTable(Game game){
+
         int[][] dpTableArray = game.getDbTable();
         String dpTableString = "";
         for (int[] ints : dpTableArray) {
@@ -116,11 +167,21 @@ public class GameController implements Initializable {
             }
             dpTableString += "\n";
         }
+
         dpTextArea.setText(dpTableString);
+    }
 
-        resultTextFiled.setText(String.valueOf(game.getExceptedResult()));
+    private void showResult(Game game){
 
-        coinTextFiled.setText(String.valueOf(game.getCoins().get(0)));
+        String result = String.valueOf(game.getExceptedResult());
+        resultTextFiled.setText(result);
+
+    }
+
+    private void showCoin(Game game){
+
+        String coin = String.valueOf(game.getCoins().get(0));
+        coinTextFiled.setText(coin);
 
     }
 

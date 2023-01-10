@@ -1,4 +1,4 @@
-package com.example.optimalgamestrategyproject;
+package birzeit.university.optimalgamestrategyproject;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

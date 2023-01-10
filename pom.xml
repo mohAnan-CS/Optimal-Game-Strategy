@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.optimalgamestrategyproject/com.example.optimalgamestrategyproject.CoinGameApplication
+                                com.example.optimalgamestrategyproject/birzeit.university.optimalgamestrategyproject.CoinGameApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

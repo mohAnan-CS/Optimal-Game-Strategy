@@ -1,4 +1,4 @@
-package problem;
+package game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class OptimalGameStrategy {
 
     }
 
-    public static void printDpTable(int[][] dp){
+    private static void printDpTable(int[][] dp){
 
         for (int[] ints : dp) {
             for (int anInt : ints) {
