@@ -148,9 +148,9 @@ public class GameController implements Initializable {
         TranslateTransition transition = new TranslateTransition(Duration.millis(500), group);
         transition.setFromY(group.getTranslateY());
         if (turn == 0)
-            transition.setToY(group.getTranslateY() - 50);
+            transition.setToY(group.getTranslateY() - 80);
         else
-            transition.setToY(group.getTranslateY() + 50);
+            transition.setToY(group.getTranslateY() + 80);
         sequence.getChildren().add(transition);
 
     }
